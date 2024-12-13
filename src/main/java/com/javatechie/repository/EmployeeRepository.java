@@ -11,6 +11,8 @@ import java.util.List;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
+
+    @Query("SELECT e FROM Employee e WHERE e.salary > :salary")
     @QueryHints({
             @QueryHint(name = "org.hibernate.readOnly", value = "true"),
             @QueryHint(name = "org.hibernate.fetchSize", value = "50"),
@@ -19,7 +21,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             @QueryHint(name = "jakarta.persistence.cache.storeMode", value = "USE"),
             @QueryHint(name = "jakarta.persistence.query.timeout", value = "2000")
     })
-    @Query("SELECT e FROM Employee e WHERE e.salary > :salary")
     List<Employee> findEmployeesWithSalaryGreaterThan(@Param("salary") Double salary);
 
 }
